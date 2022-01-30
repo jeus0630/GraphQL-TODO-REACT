@@ -1,25 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
+import {useQuery, gql, useMutation} from "@apollo/client";
+
+const GET_TEST = gql`
+    query{
+        todos
+    }
+`
+
+const POST_TODO = gql`
+    mutation($description: String!){
+        createTodo(description: $description)
+    }
+`
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const {error, loading, data} = useQuery(GET_TEST);
+    console.log(data);
+
+    useMutation()
+    return (
+        <div className="App">
+            <input type="text"/>
+            <button onClick={clickHandler}>submit</button>
+        </div>
+    );
 }
 
 export default App;
