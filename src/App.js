@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import {useQuery, gql, useMutation} from "@apollo/client";
+import {useState} from "react";
 
 const GET_TEST = gql`
     query{
@@ -15,14 +16,18 @@ const POST_TODO = gql`
 `
 
 function App() {
-    const {error, loading, data} = useQuery(GET_TEST);
-    console.log(data);
 
-    useMutation()
+    const [val, setVal] = useState('');
+    const [addToDo,{error, loading,data}] = useMutation(POST_TODO);
+
+    const changeHandler = (e) => {
+        const {value} = e.target;
+        setVal(value);
+    }
     return (
         <div className="App">
-            <input type="text"/>
-            <button onClick={clickHandler}>submit</button>
+            <input type="text" onChange={changeHandler}/>
+            <button onClick={()=>{addToDo({variables : {description : val}})}}>submit</button>
         </div>
     );
 }
